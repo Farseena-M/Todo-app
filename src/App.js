@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useEffect, useState } from 'react'
+import './Todo App/Todo.css'
+import AddTask from './Todo App/AddTask'
+import ListTask from './Todo App/ListTask'
+function Todo() {
+    const [tasks,setTasks] = useState([])
+    useEffect(()=>{
+        document.title=`You have ${tasks.length} pending task`
+    })
+   const addTask=(title)=>{
+      const newTask=[...tasks,{title}]
+      setTasks(newTask)
+    }
+    const removeTask=(index)=>{
+        const newTask=[...tasks]
+        newTask.splice(index,1)
+        setTasks(newTask)
+    }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <div className='todo-container'>
+        <div className='header'>Todo App</div>
+        <div className='add-task'><AddTask addTask={addTask}/></div>
+        <div className='tasks'>{tasks.map((task,index)=>(<ListTask task={task} removeTask={removeTask} index={index} key={index}/>))}</div>
     </div>
-  );
+    </>
+  
+  )
 }
 
-export default App;
+export default Todo
